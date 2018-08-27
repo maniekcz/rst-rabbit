@@ -75,7 +75,4 @@ class Product
     {
         return $this->id;
     }
-
-
-
 }

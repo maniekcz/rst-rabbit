@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Entity\Complain;
 use App\Entity\Order;
 use App\Mailer\RstMailer;
@@ -89,5 +88,4 @@ class EmailProvider
             ]
         );
     }
-
 }

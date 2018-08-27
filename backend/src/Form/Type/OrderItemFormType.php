@@ -26,5 +26,4 @@ class OrderItemFormType extends AbstractType
                 'constraints' => [new NotBlank()],
             ]);
     }
-
 }

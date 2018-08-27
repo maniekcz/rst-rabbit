@@ -39,5 +39,4 @@ class OrderProducer implements OrdersManager
         $this->producer->publish(serialize($order->getId()));
         return $order;
     }
-
 }

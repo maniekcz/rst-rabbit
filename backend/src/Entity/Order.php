@@ -110,7 +110,7 @@ class Order
      */
     public function addItems(array $items)
     {
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $this->addItem($item);
         }
     }
@@ -130,5 +130,4 @@ class Order
     {
         return $this->id;
     }
-
 }

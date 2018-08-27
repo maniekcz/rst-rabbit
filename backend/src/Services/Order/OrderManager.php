@@ -42,7 +42,7 @@ class OrderManager implements OrdersManager
         $order->setNotes($notes);
         foreach ($items as $item) {
             $product = $this->products->findByCode($item['product']);
-            if(!$product instanceof Product) {
+            if (!$product instanceof Product) {
                 throw new \LogicException("Product doesn't exits");
             }
             $order->addItem(
@@ -52,5 +52,4 @@ class OrderManager implements OrdersManager
         $this->orders->save($order);
         return $order;
     }
-
 }

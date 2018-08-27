@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ComplainProducerTest extends TestCase
 {
-
     private $complains;
 
     private $producer;

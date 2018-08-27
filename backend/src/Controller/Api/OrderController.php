@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 /**
  * Class OrderController
  * @package App\Controller
@@ -38,8 +37,7 @@ class OrderController extends FOSRestController
     public function __construct(
         OrdersManager $ordersManager,
         ComplainsManager $complainsManager
-    )
-    {
+    ) {
         $this->ordersManager = $ordersManager;
         $this->complainsManager = $complainsManager;
     }
@@ -90,5 +88,4 @@ class OrderController extends FOSRestController
         }
         return $this->view($form->getErrors(true, false), Response::HTTP_BAD_REQUEST);
     }
-
 }

@@ -20,5 +20,4 @@ class OrderRepository extends EntityRepository implements Orders
         $this->_em->persist($order);
         $this->_em->flush();
     }
-
 }

@@ -27,8 +27,7 @@ class OrderConsumer implements ConsumerInterface
     public function __construct(
         Orders $orders,
         EmailProvider $mailer
-    )
-    {
+    ) {
         $this->orders = $orders;
         $this->mailer  = $mailer;
     }

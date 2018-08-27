@@ -27,8 +27,7 @@ class ComplainConsumer implements ConsumerInterface
     public function __construct(
         Complains $complains,
         EmailProvider $mailer
-    )
-    {
+    ) {
         $this->complains = $complains;
         $this->mailer  = $mailer;
     }

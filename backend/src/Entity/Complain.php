@@ -83,5 +83,4 @@ class Complain
     {
         return $this->getId();
     }
-
 }

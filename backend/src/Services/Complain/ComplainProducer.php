@@ -39,5 +39,4 @@ class ComplainProducer implements ComplainsManager
         $this->producer->publish(serialize($complain->getId()));
         return $complain;
     }
-
 }

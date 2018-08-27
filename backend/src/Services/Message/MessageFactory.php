@@ -12,6 +12,5 @@ class MessageFactory implements MessageFactoryInterface
     public function create()
     {
         return new Message();
-
     }
 }

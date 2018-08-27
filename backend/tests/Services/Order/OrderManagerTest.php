@@ -12,7 +12,6 @@ use PHPUnit\Framework\TestCase;
 
 class OrderManagerTest extends TestCase
 {
-
     private $orders;
 
     private $products;
@@ -56,5 +55,4 @@ class OrderManagerTest extends TestCase
             ]]
         );
     }
-
 }

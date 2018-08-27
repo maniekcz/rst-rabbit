@@ -40,7 +40,7 @@ class ComplainManager implements ComplainsManager
     public function createComplain(int $orderId, string $complainMessage): Complain
     {
         $order = $this->orders->findById($orderId);
-        if(!$order instanceof Order) {
+        if (!$order instanceof Order) {
             throw new LogicException("Order doesn't exist");
         }
         $complain = new Complain();
@@ -49,5 +49,4 @@ class ComplainManager implements ComplainsManager
         $this->complains->save($complain);
         return $complain;
     }
-
 }

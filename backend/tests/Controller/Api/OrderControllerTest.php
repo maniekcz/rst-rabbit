@@ -15,7 +15,8 @@ class OrderControllerTest extends WebTestCase
 
     private $order;
 
-    public function setUp() {
+    public function setUp()
+    {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
         $this->em = static::$kernel->getContainer()
@@ -65,5 +66,4 @@ class OrderControllerTest extends WebTestCase
         $client->request('POST', '/api/order/' . $orderId . '/complain', ['complain' => 'test complain']);
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
-
 }

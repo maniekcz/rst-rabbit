@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class OrderProducerTest extends TestCase
 {
-
     private $orders;
 
     private $producer;

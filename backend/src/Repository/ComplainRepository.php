@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class ComplainRepository extends EntityRepository implements Complains
 {
-
     public function findById(int $id)
     {
         return parent::find($id);
@@ -21,5 +20,4 @@ class ComplainRepository extends EntityRepository implements Complains
         $this->_em->persist($complain);
         $this->_em->flush();
     }
-
 }

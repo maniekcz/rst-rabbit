@@ -12,7 +12,6 @@ use \Exception;
 
 class ComplainManagerTest extends TestCase
 {
-
     private $complains;
 
     private $orders;
@@ -44,5 +43,4 @@ class ComplainManagerTest extends TestCase
         $complainManager = new ComplainManager($this->complains, $this->orders);
         $complain = $complainManager->createComplain(1, 'test complain message');
     }
-
 }
