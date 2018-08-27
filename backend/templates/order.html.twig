@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order has been placed</title>
+</head>
+<body>
+    Order has been placed<br/>
+    Notes: {{ order.notes }}
+    {% if order.items.count %}
+        <table>
+            <tr>
+                <td>Product</td>
+                <td>Quantity</td>
+            </tr>
+            {% for item in order.items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+</body>
+</html>

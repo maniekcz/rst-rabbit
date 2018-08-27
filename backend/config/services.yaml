@@ -1,0 +1,99 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+  locale: 'en'
+  mailer_from_name: 'Marian Czerniejewski'
+  mailer_from_address: 'web@czerniejewski.pl'
+  notification_email: 'web@czerniejewski.pl'
+  jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
+
+services:
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false       # Allows optimizing the container by removing unused services; this also means
+      # fetching services directly from the container via $container->get() won't work.
+    # The best practice is to be explicit about your dependencies anyway.
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  App\Controller\:
+    resource: '../src/Controller'
+    tags: ['controller.service_arguments']
+
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
+  app.order.controller:
+    class: App\Controller\Api\OrderController
+    arguments:
+      - '@app.order.producer'
+  app.order.repository:
+    class: App\Repository\OrderRepository
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - App\Entity\Order
+  app.product.repository:
+    class: App\Repository\ProductRepository
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - App\Entity\Product
+  app.complain.repository:
+    class: App\Repository\ComplainRepository
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - App\Entity\Complain
+  app.order.manager:
+    class: App\Services\Order\OrderManager
+    arguments:
+      - '@app.order.repository'
+      - '@app.product.repository'
+  app.order.producer:
+    class: App\Services\Order\OrderProducer
+    arguments:
+      - '@app.order.manager'
+      - '@old_sound_rabbit_mq.create_order_producer'
+  rst.consumer.order:
+    class: App\Consumer\OrderConsumer
+    arguments:
+      - '@app.order.repository'
+      - '@rst.email_provider'
+  rst.consumer.complain:
+    class: App\Consumer\ComplainConsumer
+    arguments:
+    - '@app.complain.repository'
+    - '@rst.email_provider'
+  app.complain.manager:
+    class: App\Services\Complain\ComplainManager
+    arguments:
+    - '@app.complain.repository'
+    - '@app.order.repository'
+  app.complain.producer:
+    class: App\Services\Complain\ComplainProducer
+    arguments:
+    - '@app.complain.manager'
+    - '@old_sound_rabbit_mq.create_complain_producer'
+  App\Services\Order\OrdersManager: '@app.order.producer'
+  App\Services\Complain\ComplainsManager: '@app.complain.producer'
+  rst.swiftmailer:
+    class: App\Mailer\RstSwiftMailer
+    arguments: ['@templating', '@swiftmailer.mailer']
+  rst.mailer:
+    alias: rst.swiftmailer
+  rst.email.message_factory:
+    class: App\Services\Message\MessageFactory
+  rst.email_provider:
+    class: App\Services\EmailProvider
+    arguments:
+    - '@rst.email.message_factory'
+    - '@rst.mailer'
+    - {from_name: '%mailer_from_name%', from_address: '%mailer_from_address%', notification_email: '%notification_email%'}

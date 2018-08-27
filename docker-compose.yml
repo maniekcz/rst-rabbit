@@ -1,0 +1,46 @@
+version: '2'
+services:
+  web:
+    build: ./
+    ports:
+      - "8081:80"
+    volumes:
+      - "./backend:/var/www/symfony"
+    depends_on:
+      - rabbit
+      - mysql
+    links:
+      - mysql
+      - rabbit
+  consumer_order:
+    build:
+      context: .
+      dockerfile: Dockerfile-cli
+    volumes:
+      - "./backend:/var/www/symfony"
+    depends_on:
+      - web
+    command: php /var/www/symfony/bin/console rabbitmq:consumer -m 50 create_order
+  consumer_complain:
+    build:
+      context: .
+      dockerfile: Dockerfile-cli
+    volumes:
+    - "./backend:/var/www/symfony"
+    depends_on:
+    - web
+    command: php /var/www/symfony/bin/console rabbitmq:consumer -m 50 create_complain
+  mysql:
+    image: mysql
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    ports:
+      - "3307:3306"
+    volumes:
+      - "./docker/.data/db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "symfony"
+      MYSQL_USER: "symfony"
+      MYSQL_PASSWORD: "symfony"
+  rabbit:
+    image: rabbitmq

@@ -1,0 +1,15 @@
+fos_rest:
+    versioning: true
+    routing_loader:
+        include_format: true
+        default_format: json
+    param_fetcher_listener: force
+    allowed_methods_listener: true
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: '^/', stop: true }
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true
