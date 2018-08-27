@@ -63,7 +63,7 @@ class OrderControllerTest extends WebTestCase
         $orderId = 'test';
         $client = static::createClient();
         $client->request('POST', '/api/order/' . $orderId . '/complain', ['complain' => 'test complain']);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
 }
