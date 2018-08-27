@@ -79,7 +79,6 @@ class OrderController extends FOSRestController
      */
     public function createOrder(Request $request)
     {
-        $this->get('old_sound_rabbit_mq.create_order_producer')->publish(serialize(1));
         $form = $this->get('form.factory')->createNamed('', OrderFormType::class, [], [
             'csrf_protection' => false,
         ]);

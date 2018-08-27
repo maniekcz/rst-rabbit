@@ -8,6 +8,6 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Class OrderItemRepository.
  */
-class OrderItemRepository extends EntityRepository
+class OrderItemRepository extends EntityRepository implements OrdersItem
 {
 }
